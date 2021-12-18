@@ -1,4 +1,5 @@
 import sqlite3
+import json
 
 class DB:
     #initializing class to establish connection to database
@@ -59,6 +60,16 @@ class DB:
             self.c.execute(f"SELECT {attribute} FROM {table_name} WHERE {condition}")
             print(self.c.fetchall())
 
+    def show_distinct(self, table_name, attributes='*'):
+        with self.conn:
+            self.c.execute(f"SELECT DISTINCT {attributes} FROM {table_name}")
+            print(self.c.fetchall())
+
+    def show_limited(self, table_name, limit, attributes='*'):
+        with self.conn:
+            self.c.execute(f"SELECT {attributes} FROM {table_name} LIMIT {limit}")
+            print(self.c.fetchall())
+
     #functions to delete rows from tables
     def delete_row(self, table_name, condition=None):
         with self.conn:
@@ -68,12 +79,29 @@ class DB:
         with self.conn:
             self.c.execute(f"DELETE FROM {table_name}")
 
-    #functions to 
+    #function to update values in a table
+    def update_value(self, table_name, values, condition):
+        with self.conn:
+            self.c.execute(f"UPDATE {table_name} SET {values} WHERE {condition}")
+
+    #function to view table in a particular order
+    def order_by(self, table_name, conditions, attributes = '*'):
+        with self.conn:
+            self.c.execute(f"SELECT {attributes} FROM {table_name} ORDER BY {conditions}")
+            print(self.c.fetchall())
+
+
+    #function for custom/complex queries
+    def custom_query(self, query):
+        with self.conn:
+            self.c.execute(query)
+            print(self.c.fetchall())
             
+           
     #close function to close connection
     def close(self):
         self.conn.close()
     
 
-   
+
     
