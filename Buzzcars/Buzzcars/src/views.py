@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, ContactForm
 from .models import Vehicle
 
 # Create your views here.
@@ -11,7 +11,16 @@ from .models import Vehicle
 
 
 def Home(request):
-    context = {}
+
+    form = ContactForm()
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            
+    context = {'form':form}
     return render(request, 'index.html', context)
 
 def loginPage(request):
