@@ -11,7 +11,6 @@ from .models import Vehicle
 
 
 def Home(request):
-
     form = ContactForm()
 
     if request.method == 'POST':
@@ -19,8 +18,8 @@ def Home(request):
 
         if form.is_valid():
             form.save()
-            
-    context = {'form':form}
+
+    context = {'form': form}
     return render(request, 'index.html', context)
 
 def loginPage(request):
